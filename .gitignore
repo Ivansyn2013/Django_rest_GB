@@ -3,3 +3,5 @@
 .idea
 Scripts
 Lib
+/db.sqlite3
+/test.py
