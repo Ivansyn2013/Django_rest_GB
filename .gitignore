@@ -5,3 +5,6 @@ Scripts
 Lib
 /db.sqlite3
 /test.py
+venv
+
+frontend/node_modules
