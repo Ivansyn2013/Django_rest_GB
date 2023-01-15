@@ -1,0 +1,11 @@
+[
+{
+    "model": "first_r_app.author",
+    "pk": "9da16d28-6340-4627-a3c0-1d598177639d",
+    "fields": {
+        "first_name": "Ivan",
+        "last_name": "Ivanov",
+        "birthday": 1823
+    }
+}
+]
