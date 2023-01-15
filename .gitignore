@@ -8,3 +8,5 @@ Lib
 venv
 
 frontend/node_modules
+/.env
+/frontend/.env

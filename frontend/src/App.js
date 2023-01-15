@@ -4,6 +4,7 @@ import './App.css';
 import AuthorList from './components/Author';
 import Menu from './components/menu';
 import footer from "./components/footer";
+import TODOList from "./components/TODO";
 import axios from 'axios';
 
 
@@ -13,6 +14,7 @@ class App extends React.Component {
         this.state = {
             'authors': [],
             'menu':[],
+            'TODO':[],
 
         }
     }
@@ -61,6 +63,18 @@ class App extends React.Component {
                     'menu':menu,
             })
     }
+
+        axios.get('http://127.0.0.1:8000/api/TODO')
+            .then(response => {
+                const TODO = response.data
+                this.setState(
+                    {
+                        'TODO': TODO
+                    }
+                )
+            }).catch(error => console.log(error))
+
+
 
 
     render() {
