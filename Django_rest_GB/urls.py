@@ -16,19 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from first_r_app.views import AuthorModelViewset, TODOModelViewset, ProjectModelViewset, UserModelViewset, MyFirstViewSet
+from first_r_app.views import AuthorModelViewset, TODOModelViewset, ProjectModelViewset, UserModelViewset
+from first_r_app.views import MyUserViewSet, MyProjectView, MyTODOViewSet
+
 
 router = DefaultRouter()
 router.register('authors', AuthorModelViewset)
 router.register('todo', TODOModelViewset)
 router.register('users', UserModelViewset)
 router.register('projects', ProjectModelViewset)
-router.register('my_test', MyFirstViewSet, basename='my_test')
+router.register('project', MyProjectView, basename='my_p')
+router.register('t/todo', MyTODOViewSet, basename='my_t')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-
+    path('users/', MyUserViewSet.as_view()),
+    #path('project/', MyProjectView.as_view()),
+    #path('todo/', MyTODOViewSet.as_view()),
 ]
 
 

@@ -14,6 +14,8 @@ class Author(models.Model):
 class User(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
     name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
 
 class Project(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
@@ -30,4 +32,5 @@ class TODO(models.Model):
     update_data = models.DateTimeField(null=True)
     own_user_name = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, auto_created=True)
+
 
