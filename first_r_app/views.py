@@ -53,7 +53,7 @@ class MyTODOViewSet(ModelViewSet):
     queryset = TODO.objects.all()
     serializer_class = TODOSerializer
     pagination_class = TODOModelPaginator
-
+    filterset_fields = ['project_name']
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.is_active = False
