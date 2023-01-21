@@ -8,6 +8,8 @@ class Author(models.Model):
     last_name = models.CharField(max_length=64)
     birthday = models.PositiveIntegerField()
 
+    def __str__(self):
+        return self.first_name
 
 class User(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
