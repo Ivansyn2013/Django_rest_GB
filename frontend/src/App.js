@@ -5,87 +5,107 @@ import AuthorList from './components/Author';
 import Menu from './components/menu';
 import footer from "./components/footer";
 import TODOList from "./components/TODO";
+import UserList from "./components/Users";
+import ProjectList from "./components/Projects";
 import axios from 'axios';
-
+import {BrowserRouter, HashRouter, Link, Route, Router, Routes} from "react-router-dom";
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             'authors': [],
-            'menu':[],
-            'TODO':[],
+            'menu': [],
+            'todo': [],
+            'users': [],
+            'projects': [],
 
         }
     }
 
 
-    // componentDidMount() {
-    //     const authors = [
-    //         {
-    //             'first_name': 'Фёдор',
-    //             'last_name': 'Достоевский',
-    //             'birthday_year': 1821
-    //         },
-    //         {
-    //             'first_name': 'Александр',
-    //             'last_name': 'Грин',
-    //             'birthday_year': 1880
-    //         },
-    //     ]
-    //     this.setState(
-    //         {
-    //             'authors': authors
-    //         }
-    //     )
-    // }
-
-
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/authors')
             .then(response => {
-                const authors = response.data
-                this.setState(
-                    {
-                        'authors': authors
-                    }
-                )
-            }).catch(error => console.log(error))
+                    const authors = response.data
+                    this.setState({
+                            'authors': authors
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
 
-        const menu = [
-            {'name':'First'},
-            {'name':'Second'},
-            {'name': 'Thid'},
-        ]
-
-        this.setState(
-            {
-                    'menu':menu,
-            })
-    }
-
-        axios.get('http://127.0.0.1:8000/api/TODO')
+        axios.get('http://127.0.0.1:8000/api/todo')
             .then(response => {
-                const TODO = response.data
-                this.setState(
-                    {
-                        'TODO': TODO
-                    }
-                )
-            }).catch(error => console.log(error))
+                    const todo = response.data
+                    this.setState({
+                            'todo': todo
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
 
 
+        axios.get('http://127.0.0.1:8000/api/users')
+            .then(response => {
+                    const users = response.data
+                    this.setState({
+                            'users': users
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
+
+
+        axios.get('http://127.0.0.1:8000/api/projects')
+            .then(response => {
+                    const projects = response.data
+
+
+                    this.setState({
+                            'projects': projects,
+                                                    }
+                    )
+                }
+            ).catch(error => console.log(error))
+
+
+    }
 
 
     render() {
+
         return (
-            <div>
+
+            <div className="App">
                 <Menu menu={this.state.menu}/>
-            </div>,
-            <div>
-                <Menu menu={this.state.menu}/>
-                <AuthorList authors={this.state.authors}/>
-                <footer footer_l={this.state.menu}/>
+                <BrowserRouter>
+
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to='/todo'>Todo</Link>
+                            </li>
+                            <li>
+                                <Link to='/users'>Users</Link>
+                            </li>
+                            <li>
+                                <Link to='/projects'>Projects</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                    <Routes>
+                        <Route exact path='/'  component={() => <AuthorList authors={this.state.authors}/>} exact ></Route>
+                        <Route exact path='todo'  component={() => <TODOList todo = {this.state.todo}/>}></Route>
+                        <Route exact path='users'  component={() => <UserList
+                            users={this.state.users}/>}></Route>
+                        <Route  exact path='projects'  component={() => <ProjectList
+                            projects={this.state.projects}/>}> </Route>
+                    </Routes>
+
+
+                    <footer footer_l={this.state.menu}/>
+                </BrowserRouter>
             </div>
         )
     }
