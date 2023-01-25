@@ -8,7 +8,7 @@ import TODOList from "./components/TODO";
 import UserList from "./components/Users";
 import ProjectList from "./components/Projects";
 import axios from 'axios';
-import {HashRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, HashRouter, Link, Route, Router, Routes} from "react-router-dom";
 
 class App extends React.Component {
     constructor(props) {
@@ -60,17 +60,11 @@ class App extends React.Component {
         axios.get('http://127.0.0.1:8000/api/projects')
             .then(response => {
                     const projects = response.data
-                    const menu = [
-                        'Firest',
-                        'Second',
-                        'Third',
-                    ]
 
 
                     this.setState({
                             'projects': projects,
-                            'menu': menu,
-                        }
+                                                    }
                     )
                 }
             ).catch(error => console.log(error))
@@ -80,24 +74,38 @@ class App extends React.Component {
 
 
     render() {
+
         return (
+
             <div className="App">
                 <Menu menu={this.state.menu}/>
-                <HashRouter>
+                <BrowserRouter>
+
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to='/todo'>Todo</Link>
+                            </li>
+                            <li>
+                                <Link to='/users'>Users</Link>
+                            </li>
+                            <li>
+                                <Link to='/projects'>Projects</Link>
+                            </li>
+                        </ul>
+                    </nav>
                     <Routes>
-                        <Route exact path='/' component={() => <AuthorList
-                            items={this.state.authors}/>}/>
-                        <Route exact path='/todo' component={() => <TODOList
-                            items={this.state.todo}/>}/>
-                        <Route exact path='/users' component={() => <UserList
-                            items={this.state.users}/>}/>
-                        <Route exact path='/projects' component={() => <ProjectList
-                            items={this.state.projects}/>}/>
-
-
+                        <Route exact path='/'  component={() => <AuthorList authors={this.state.authors}/>} exact ></Route>
+                        <Route exact path='todo'  component={() => <TODOList todo = {this.state.todo}/>}></Route>
+                        <Route exact path='users'  component={() => <UserList
+                            users={this.state.users}/>}></Route>
+                        <Route  exact path='projects'  component={() => <ProjectList
+                            projects={this.state.projects}/>}> </Route>
                     </Routes>
+
+
                     <footer footer_l={this.state.menu}/>
-                </HashRouter>
+                </BrowserRouter>
             </div>
         )
     }
