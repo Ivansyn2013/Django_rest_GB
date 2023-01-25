@@ -6,7 +6,7 @@ import Menu from './components/menu';
 import footer from "./components/footer";
 import TODOList from "./components/TODO";
 import axios from 'axios';
-import {HashRouter, Route} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 
 class App extends React.Component {
     constructor(props) {
@@ -59,25 +59,16 @@ class App extends React.Component {
                     }
                 )
             }).catch(error => console.log(error))
-
+    }
 
     render() {
         return (
             <div className="App">
-                <HashRouter>
-                    <Route exact path='/' component={() => <AuthorList
-                        items={this.state.authors}/>}/>
-                    <Route exact path='/books' component={() => <BookList
-                        items={this.state.books}/>}/>
-                </HashRouter>
-            </div>
-            <div>
-                <Menu menu={this.state.menu}/>
-            </div>,
-            <div>
+
                 <Menu menu={this.state.menu}/>
                 <AuthorList authors={this.state.authors}/>
-            <footer footer_l={this.state.menu}/>
+                <footer footer_l={this.state.menu}/>
+
             </div>
     )
     }
