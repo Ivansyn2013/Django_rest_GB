@@ -27,41 +27,58 @@ class App extends React.Component {
     componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/authors')
             .then(response => {
-                const authors = response.data
-                const menu = [
-                    {'name': 'First'},
-                    {'name': 'Second'},
-                    {'name': 'Thid'},
-                ]
-            })
-
+                    const authors = response.data
+                    this.setState({
+                            'authors': authors
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
 
         axios.get('http://127.0.0.1:8000/api/todo')
             .then(response => {
-                const todo = response.data
+                    const todo = response.data
+                    this.setState({
+                            'todo': todo
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
 
-            })
 
-       axios.get('http://127.0.0.1:8000/api/users')
+        axios.get('http://127.0.0.1:8000/api/users')
             .then(response => {
-                const users = response.data
-            })
+                    const users = response.data
+                    this.setState({
+                            'users': users
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
+
 
         axios.get('http://127.0.0.1:8000/api/projects')
             .then(response => {
-                const projects = response.data
-            })
+                    const projects = response.data
+                    const menu = [
+                        'Firest',
+                        'Second',
+                        'Third',
+                    ]
 
 
-                    this.setState(
-                    {
-                        'todo': todo,
-                        'users': users,
-                        'authors': authors,
-                        'menu': menu,
+                    this.setState({
+                            'projects': projects,
+                            'menu': menu,
+                        }
+                    )
+                }
+            ).catch(error => console.log(error))
 
-                    }
-                )}).catch(error => console.log(error))
+
+    }
+
+
     render() {
         return (
             <div className="App">
