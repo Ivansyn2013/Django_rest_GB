@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('users/', MyUserViewSet.as_view()),
+    path('api-auth/', include('rest_framework.urls')),
     #path('project/', MyProjectView.as_view()),
     #path('todo/', MyTODOViewSet.as_view()),
 ]
