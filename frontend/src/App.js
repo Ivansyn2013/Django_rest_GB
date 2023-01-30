@@ -29,26 +29,26 @@ class App extends React.Component {
             .then(response => {
                     const authors = response.data
                     this.setState({
-                            'authors': authors
+                            'authors': authors['results']
                         }
                     )
                 }
             ).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todo')
+        axios.get('http://127.0.0.1:8000/api/todo/')
             .then(response => {
-                    const todo = response.data
+                    const todo = response.data['results']
                     this.setState({
                             'todo': todo
                         }
                     )
                 }
             ).catch(error => console.log(error))
-
+            console.log("Это объект todo с бэка" + JSON.stringify(this.state.todo, null, 2))
 
         axios.get('http://127.0.0.1:8000/api/users')
             .then(response => {
-                    const users = response.data
+                    const users = response.data['results']
                     this.setState({
                             'users': users
                         }
@@ -59,7 +59,7 @@ class App extends React.Component {
 
         axios.get('http://127.0.0.1:8000/api/projects')
             .then(response => {
-                    const projects = response.data
+                    const projects = response.data['results']
 
 
                     this.setState({
