@@ -31,7 +31,7 @@ class AuthorModelSerializer(HyperlinkedModelSerializer):
 
 
 class TODOHyperlinkSerializer(HyperlinkedModelSerializer):
-    project_name = ProjectModelSerializer()
+    project1 = ProjectModelSerializer()
     class Meta:
         model = TODO
         fields = '__all__'

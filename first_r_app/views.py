@@ -36,6 +36,7 @@ class UserModelViewset(ModelViewSet):
     serializer_class = UserModelSerializer
 
 class ProjectModelViewset(ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
 

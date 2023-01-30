@@ -5,7 +5,7 @@ const TODOIteam = ({TODO}) => {
 
         <tr>
             <td>
-                {TODO.project_name}
+                {TODO.project1.project_name}
             </td>
             <td>
                 {TODO.todo_text}
@@ -20,7 +20,7 @@ const TODOIteam = ({TODO}) => {
 const TODOList = ({todo}) => {
     return (
         <table>
-            <thead><h1>TDO project</h1></thead>
+            <thead><h1>TODO project</h1></thead>
             <th>
             Project name
             </th>
