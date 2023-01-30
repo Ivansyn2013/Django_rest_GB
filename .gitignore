@@ -11,3 +11,7 @@ frontend/node_modules
 /.env
 /frontend/.env
 /first_r_app/test.py
+/fixtures/.json
+/fixtures/fix
+/Django_rest_GB/test.html
+/frontend/src/test.js
