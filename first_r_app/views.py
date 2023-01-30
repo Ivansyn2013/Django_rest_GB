@@ -26,6 +26,7 @@ class AuthorModelViewset(ModelViewSet):
     serializer_class = AuthorModelSerializer
 
 class TODOModelViewset(ModelViewSet):
+
     permission_classes = [AllowAny]
     queryset = TODO.objects.all()
     serializer_class = TODOHyperlinkSerializer
@@ -35,6 +36,7 @@ class UserModelViewset(ModelViewSet):
     serializer_class = UserModelSerializer
 
 class ProjectModelViewset(ModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
 
