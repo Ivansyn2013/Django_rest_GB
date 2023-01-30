@@ -7,8 +7,9 @@ import footer from "./components/footer";
 import TODOList from "./components/TODO";
 import UserList from "./components/Users";
 import ProjectList from "./components/Projects";
+import LoginForm from "./components/Auth";
 import axios from 'axios';
-import {BrowserRouter, HashRouter, Link, Route, Router, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Route, Router, Routes} from "react-router-dom";
 
 class App extends React.Component {
     constructor(props) {
@@ -23,8 +24,8 @@ class App extends React.Component {
         }
     }
 
+    load_data() {
 
-    componentDidMount() {
         axios.get('http://127.0.0.1:8000/api/authors')
             .then(response => {
                     const authors = response.data
@@ -35,22 +36,24 @@ class App extends React.Component {
                 }
             ).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todo/')
+        axios.get('http://127.0.0.1:8000/api/todo')
             .then(response => {
                     const todo = response.data['results']
+                    console.log("Это объект todo с бэка" + JSON.stringify(todo, null, 2))
                     this.setState({
-                            'todo': todo
+                            'todo': todo,
                         }
                     )
+                    console.log("Это объект todo из  state" + JSON.stringify([this.state.todo], null, 2))
                 }
             ).catch(error => console.log(error))
-            console.log("Это объект todo с бэка" + JSON.stringify(this.state.todo, null, 2))
+
 
         axios.get('http://127.0.0.1:8000/api/users')
             .then(response => {
                     const users = response.data['results']
                     this.setState({
-                            'users': users
+                            'users': users,
                         }
                     )
                 }
@@ -68,8 +71,10 @@ class App extends React.Component {
                     )
                 }
             ).catch(error => console.log(error))
+    }
 
-
+    componentDidMount() {
+        this.load_data()
     }
 
 
