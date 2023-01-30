@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class ProjectModelPaginator(LimitOffsetPagination):
     default_limit = 10
@@ -32,6 +32,7 @@ class TODOModelViewset(ModelViewSet):
     serializer_class = TODOHyperlinkSerializer
 
 class UserModelViewset(ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
 
