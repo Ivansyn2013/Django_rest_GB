@@ -26,7 +26,7 @@ router.register('authors', AuthorModelViewset)
 router.register('todo', TODOModelViewset)
 router.register('users', UserModelViewset)
 router.register('projects', ProjectModelViewset)
-router.register('project', MyProjectView, basename='my_p')
+#router.register('project', MyProjectView, basename='my_p')
 router.register('t/todo', MyTODOViewSet, basename='my_t')
 
 urlpatterns = [
@@ -35,8 +35,7 @@ urlpatterns = [
     path('users/', MyUserViewSet.as_view()),
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token),
-    #path('project/', MyProjectView.as_view()),
-    #path('todo/', MyTODOViewSet.as_view()),
+
 ]
 
 

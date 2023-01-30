@@ -9,7 +9,9 @@ import UserList from "./components/Users";
 import ProjectList from "./components/Projects";
 import LoginForm from "./components/Auth";
 import axios from 'axios';
-import {BrowserRouter, Link, Route,  Router, Routes} from "react-router-dom";
+import {BrowserRouter, Link, Route, Router, Routes} from "react-router-dom";
+import Cookies from 'universal-cookie';
+
 
 class App extends React.Component {
     constructor(props) {
@@ -25,17 +27,53 @@ class App extends React.Component {
         }
     }
 
-    get_token(username, password){
-        axios.post('http://127.0.0.1:8000/api/api-token-auth', {username: username,
-                                                                        password: password,
+    set_token(token) {
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        this.setState({'token': token}, ()=>this.load_data())
+    }
+
+    is_authenticated() {
+        return this.state.token != ''
+    }
+
+    logout() {
+        this.set_token('')
+    }
+
+    get_token_from_storage() {
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({'token': token}, ()=>this.load_data())
+    }
+
+
+    get_token(username, password) {
+        axios.post('http://127.0.0.1:8000/api/api-token-auth', {
+            username: username,
+            password: password,
         }).then(response => {
             console.log(response.data)
+            this.set_token(response.data['token'])
         }).catch(error => alert('Неверный логшин или пароль'))
     }
 
-    load_data() {
+    get_headers() {
+        let headers = {
+        'Content-Type': 'application/json'
+        }
+        if (this.is_authenticated())
+        {
+        headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
+        }
 
-        axios.get('http://127.0.0.1:8000/api/authors')
+
+    load_data() {
+        const headers = this.get_headers()
+
+        axios.get('http://127.0.0.1:8000/api/authors', {headers})
             .then(response => {
                     const authors = response.data.results
                     this.setState({
@@ -75,7 +113,7 @@ class App extends React.Component {
 
                     this.setState({
                             'projects': projects,
-                                                    }
+                        }
                     )
                 }
             ).catch(error => console.log(error))
@@ -85,6 +123,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.get_token_from_storage()
         this.load_data()
 
     }
@@ -115,14 +154,14 @@ class App extends React.Component {
                         </ul>
                     </nav>
                     <Routes>
-                        <Route  path='/'  element={<AuthorList authors={this.state.authors}/>}  ></Route>
-                        <Route  path='todo'  element={<TODOList todo = {this.state.todo}/>}></Route>
-                        <Route  path='users'  element={<UserList
+                        <Route path='/' element={<AuthorList authors={this.state.authors}/>}></Route>
+                        <Route path='todo' element={<TODOList todo={this.state.todo}/>}></Route>
+                        <Route path='users' element={<UserList
                             users={this.state.users}/>}></Route>
-                        <Route   path='projects'  element={<ProjectList projects={this.state.projects}/>}>
+                        <Route path='projects' element={<ProjectList projects={this.state.projects}/>}>
                         </Route>
-                        <Route   path='login'  element={<LoginForm
-                            get_token={(username, password)=> this.get_token(username,password)}/> }>
+                        <Route path='login' element={<LoginForm
+                            get_token={(username, password) => this.get_token(username, password)}/>}>
                         </Route>
 
                     </Routes>
