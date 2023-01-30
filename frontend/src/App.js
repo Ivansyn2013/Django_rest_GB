@@ -35,7 +35,7 @@ class App extends React.Component {
                 }
             ).catch(error => console.log(error))
 
-        axios.get('http://127.0.0.1:8000/api/todo')
+        axios.get('http://127.0.0.1:8000/api/todo/')
             .then(response => {
                     const todo = response.data['results']
                     this.setState({
@@ -44,7 +44,7 @@ class App extends React.Component {
                     )
                 }
             ).catch(error => console.log(error))
-
+            console.log("Это объект todo с бэка" + JSON.stringify(this.state.todo, null, 2))
 
         axios.get('http://127.0.0.1:8000/api/users')
             .then(response => {
