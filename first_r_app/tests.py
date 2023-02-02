@@ -49,3 +49,13 @@ class TestTODO(APITestCase):
         self.client.login(username='admin', password='admin123456')
         response = self.client.get(f'/api/projects/{TODO.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_todo_moxer(self):
+        todo = mixer.blend(td)
+        admin = User.objects.create_superuser('admin',
+                                              'admin@admin.com',
+                                              'admin123456')
+        self.client.login(username='admin', password='admin123456')
+        response = self.client.put(f'/api/projects/{TODO.id}/',{'user':'user'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
