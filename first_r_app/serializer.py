@@ -13,6 +13,12 @@ class AuthorModelSerializer(HyperlinkedModelSerializer):
 class UserModelSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = User
+        fields = ['name', 'id']
+
+
+class UserModelSerializerVersion2(HyperlinkedModelSerializer):
+    class Meta:
+        model = User
         fields = '__all__'
 
 
@@ -28,18 +34,15 @@ class AuthorModelSerializer(HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-
-
 class TODOHyperlinkSerializer(HyperlinkedModelSerializer):
     project = ProjectModelSerializer(source='project_name')
+
     class Meta:
         model = TODO
         fields = '__all__'
 
 
-
 class TODOSerializer(serializers.Serializer):
-
     class Meta:
         model = TODO
         fields = '__all__'
