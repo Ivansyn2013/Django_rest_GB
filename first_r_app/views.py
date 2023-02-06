@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import Author, TODO, User, Project
 from .serializer import AuthorModelSerializer
-from .serializer import TODOHyperlinkSerializer,  UserModelSerializer, ProjectModelSerializer, TODOSerializer
+from .serializer import TODOHyperlinkSerializer,  UserModelSerializer, ProjectModelSerializer, TODOSerializer, UserModelSerializerVersion2
 from rest_framework.viewsets import generics, ViewSet
 from rest_framework.renderers import JSONRenderer
 from rest_framework.pagination import LimitOffsetPagination
@@ -32,9 +32,15 @@ class TODOModelViewset(ModelViewSet):
     serializer_class = TODOHyperlinkSerializer
 
 class UserModelViewset(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return UserModelSerializerVersion2
+        return UserModelSerializer
 
 class ProjectModelViewset(ModelViewSet):
     permission_classes = [AllowAny]

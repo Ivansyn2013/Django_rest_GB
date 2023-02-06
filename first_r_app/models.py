@@ -14,6 +14,8 @@ class Author(models.Model):
 class User(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
     name = models.CharField(max_length=100)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     def __str__(self):
         return self.name
 
