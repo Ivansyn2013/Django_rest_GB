@@ -152,5 +152,5 @@ REST_FRAMEWORK = {
 
 
 GRAPHENE = {
-    "SCHEMA": "schema.schema"
+    "SCHEMA": "first_r_app.schema.schema"
 }
