@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 from first_r_app.views import AuthorModelViewset, TODOModelViewset, ProjectModelViewset, UserModelViewset
 from first_r_app.views import MyUserViewSet, MyProjectView, MyTODOViewSet
 from rest_framework.authtoken import views
+from graphene_django.views import GraphQLView
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -36,6 +37,8 @@ urlpatterns = [
     path('users/', MyUserViewSet.as_view()),
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', views.obtain_auth_token),
+
+    path('graphql/', GraphQLView.as_view(graphiql=True)),
 
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
