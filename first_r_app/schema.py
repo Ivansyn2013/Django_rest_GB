@@ -22,9 +22,9 @@ class ProjectType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    users = graphene.List(UserType)
-    projects = graphene.List(ProjectType)
-    todolist = graphene.List(TODOType)
+    all_users = graphene.List(UserType)
+    all_projects = graphene.List(ProjectType)
+    all_todolist = graphene.List(TODOType)
 
     def resolve_all_users(root, info):
         return User.objects.all()
