@@ -124,6 +124,15 @@ class App extends React.Component {
         console.log('Это this' + this);
     }
 
+
+    deleteBook(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers, headers})
+            .then(response => {
+                this.setState({books: this.state.books.filter((item)=>item.id !==
+        id)})
+            }).catch(error => console.log(error))
+    }
     componentDidMount() {
         this.get_token_from_storage()
         // this.load_data()

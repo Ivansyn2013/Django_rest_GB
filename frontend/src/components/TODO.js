@@ -13,6 +13,9 @@ const TODOIteam = ({TODO}) => {
             <td>
                 {TODO.create_data}
             </td>
+            <td>
+                <button type='button'>Delete</button>
+            </td>
         </tr>
     )
 }
@@ -30,6 +33,7 @@ const TODOList = ({todo}) => {
             <th>
             Create date
             </th>
+            <th></th>
             {todo.map((TODO) => <TODOIteam TODO={TODO} />)}
         </table>
 )
