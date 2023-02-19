@@ -21,7 +21,7 @@ services:
       && python ./Django_rest_GB/manage.py makemigrations
       && python ./Django_rest_GB/manage.py migrate
       && python ./Django_rest_GB/manage.py createsuperuser --noinput
-      && gunicorn ./Django_rest_GB/Django_rest_GB.wsgi -b 0.0.0.0:8080
+      && gunicorn Django_rest_GB.wsgi:application --chdir=./Django_rest_GB -b 0.0.0.0:8080 --pythonpath=Django_rest_GB
       "
 #    depends_on:
 #      - db
