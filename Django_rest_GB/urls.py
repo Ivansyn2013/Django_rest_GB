@@ -29,7 +29,7 @@ router.register('todo', TODOModelViewset)
 router.register('users', UserModelViewset)
 router.register('projects', ProjectModelViewset)
 # router.register('project', MyProjectView, basename='my_p')
-router.register('t/todo', MyTODOViewSet, basename='my_t')
+#router.register('t/todo', MyTODOViewSet, basename='my_t')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

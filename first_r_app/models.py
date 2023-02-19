@@ -21,18 +21,18 @@ class User(models.Model):
 
 class Project(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True)
-    name = models.CharField(max_length=64)
-    link = models.URLField()
-    users = models.ManyToManyField(User)
+    name = models.CharField(max_length=64, blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    users = models.ManyToManyField(User, blank=True, null=True)
 
 
 class TODO(models.Model):
-    id = models.UUIDField(default=uuid4, primary_key=True)
-    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
+    id = models.UUIDField(default=uuid4, primary_key=True, serialize=True)
+    project_name = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
     todo_text = models.TextField()
     create_data = models.DateTimeField(auto_now_add=True)
     update_data = models.DateTimeField(null=True)
-    own_user_name = models.ForeignKey(User, on_delete=models.CASCADE)
+    own_user_name = models.ForeignKey(User, on_delete=models.CASCADE, default='1b68a7f6-a459-4bb4-9e2f-8a52fb9a171e')
     is_active = models.BooleanField(default=True, auto_created=True)
 
 

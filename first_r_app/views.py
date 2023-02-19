@@ -31,6 +31,7 @@ class TODOModelViewset(ModelViewSet):
     queryset = TODO.objects.all()
     serializer_class = TODOHyperlinkSerializer
 
+
 class UserModelViewset(ModelViewSet):
     #permission_classes = [IsAuthenticated]
     permission_classes = [AllowAny]

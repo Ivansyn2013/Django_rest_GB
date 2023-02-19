@@ -3,6 +3,7 @@ import './logo.svg';
 import './App.css';
 import AuthorList from './components/Author';
 import Menu from './components/menu';
+import TODOform from "./components/TODOform";
 import footer from "./components/footer";
 import TODOList from "./components/TODO";
 import UserList from "./components/Users";
@@ -30,7 +31,7 @@ class App extends React.Component {
     set_token(token) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        this.setState({'token': token}, ()=>this.load_data())
+        this.setState({'token': token}, () => this.load_data())
     }
 
     is_authenticated() {
@@ -44,7 +45,7 @@ class App extends React.Component {
     get_token_from_storage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({'token': token}, ()=>this.load_data())
+        this.setState({'token': token}, () => this.load_data())
     }
 
 
@@ -60,15 +61,45 @@ class App extends React.Component {
 
     get_headers() {
         let headers = {
-        'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         }
-        if (this.is_authenticated())
-        {
-        headers['Authorization'] = 'Token ' + this.state.token
+        if (this.is_authenticated()) {
+            headers['Authorization'] = 'Token ' + this.state.token
         }
         return headers
+    }
+
+    createTODO(todo_text, project_name, project) {
+        const headers = this.get_headers()
+        const data = {
+            todo_text: todo_text,
+            project_name: project_name,
+            project: project,
+
         }
 
+        axios.post('http://127.0.0.1:8000/api/todo/', data,{headers})
+            .then(response => {
+                let new_todo = response.data
+                const project = this.state.projects.filter((iteam) => iteam.id === new_todo.project.id)[0]
+                new_todo.project_name = project
+                this.setState({
+                    todo: [...this.state.todo, new_todo]
+                })
+            }).catch(error => console.log(error))
+    }
+
+
+    deleteTODO(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers})
+            .then(response => {
+                this.setState({
+                    todo: this.state.todo.filter((TODO) => TODO.id !==
+                        id)
+                })
+            }).catch(error => console.log(error))
+    }
 
     load_data() {
         const headers = this.get_headers()
@@ -104,8 +135,7 @@ class App extends React.Component {
                     )
                 }
             ).catch(error => console.log(error))
-            this.setState({users:[]})
-
+        this.setState({users: []})
 
 
         axios.get('http://127.0.0.1:8000/api/projects')
@@ -125,16 +155,8 @@ class App extends React.Component {
     }
 
 
-    deleteBook(id) {
-        const headers = this.get_headers()
-        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers, headers})
-            .then(response => {
-                this.setState({books: this.state.books.filter((item)=>item.id !==
-        id)})
-            }).catch(error => console.log(error))
-    }
     componentDidMount() {
-        this.get_token_from_storage()
+        this.get_token_from_storage() //здесь прокидывается loaddata
         // this.load_data()
 
     }
@@ -160,25 +182,29 @@ class App extends React.Component {
                                 <Link to='/projects'>Projects</Link>
                             </li>
                             <li>
-                                {this.is_authenticated() ? <button onClick={()=>this.logout()}>Logout</button>
-                                                         : <Link to='/login'>Login</Link>}
+                                {this.is_authenticated() ? <button onClick={() => this.logout()}>Logout</button>
+                                    : <Link to='/login'>Login</Link>}
 
                             </li>
                         </ul>
                     </nav>
                     <Routes>
                         <Route path='/' element={<AuthorList authors={this.state.authors}/>}></Route>
-                        <Route path='todo' element={<TODOList todo={this.state.todo}/>}></Route>
+                        <Route path='todo/create' element={<TODOform projects={this.state.projects} todo={this.state.todo} createTODO=
+                            {(todo_text, project_name, project) => this.createTODO(todo_text, project_name, project)}/>}></Route>
+                        <Route path='todo' element={<TODOList todo={this.state.todo}
+                                                              deleteTODO={(id) => this.deleteTODO(id)
+                                                              }/>}></Route>
                         <Route path='users' element={<UserList
                             users={this.state.users}/>}></Route>
                         <Route path='projects' element={<ProjectList projects={this.state.projects}/>}>
                         </Route>
                         <Route path='login' element={
                             this.is_authenticated()
-                                ? <Link  to='/'></Link>
+                                ? <Link to='/'></Link>
 
                                 : <LoginForm
-                                get_token={(username, password) => this.get_token(username, password)}/>}>
+                                    get_token={(username, password) => this.get_token(username, password)}/>}>
                         </Route>
 
                     </Routes>
