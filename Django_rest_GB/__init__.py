@@ -1,0 +1,1 @@
+from Django_rest_GB import settings
