@@ -31,6 +31,7 @@ mixer==7.2.2
 packaging==23.0
 platformdirs==2.6.0
 promise==2.3
+psycopg2==2.9.5
 pylint==2.15.9
 python-dateutil==2.8.2
 python-dotenv==0.21.0
